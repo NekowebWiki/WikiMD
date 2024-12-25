@@ -1,9 +1,6 @@
-[package]
-name = "wikimd"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+members = ["crates/*"]
 
-[dependencies]
-markdown-it = "0.6.1"
-regex = "1.11.1"
-unbox-box = "0.1.0"
+[workspace.package]
+edition = "2021"
+repository = "https://github.com/nekowebwiki/markdown-plugins"

@@ -52,7 +52,7 @@ impl NodeValue for TOC {
             fmt.close("li");
         }
         let attrs = node.attrs.clone();
-        
+
         fmt.cr();
         fmt.open("ol", &attrs);
         self.0.iter().for_each(|item| {

@@ -1,0 +1,10 @@
+[package]
+name = "md_it_rs_table_of_contents"
+version = "0.1.0"
+edition.workspace = true
+repository.workspace = true
+
+[dependencies]
+markdown-it = "0.6.1"
+regex = "1.11.1"
+unbox-box = "0.1.0"
