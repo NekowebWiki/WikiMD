@@ -87,8 +87,6 @@ impl CoreRule for TableOfContentsDetect {
 
         let mut disorganized_headings: Vec<Heading> = Vec::new();
         root.walk_mut(|node, _| {
-            let nodetype = node.node_type.name;
-
             fn get_level(node: &Node) -> Option<u8> {
                 match node.cast::<ATXHeading>() {
                     Some(item) => return Some(item.level),
