@@ -3,15 +3,6 @@
 version = 3
 
 [[package]]
-name = "TableOfContents"
-version = "0.1.0"
-dependencies = [
- "markdown-it",
- "regex",
- "unbox-box",
-]
-
-[[package]]
 name = "adler2"
 version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -278,6 +269,15 @@ dependencies = [
  "stacker",
  "syntect",
  "unicode-general-category",
+]
+
+[[package]]
+name = "md_toc"
+version = "0.1.0"
+dependencies = [
+ "markdown-it",
+ "regex",
+ "unbox-box",
 ]
 
 [[package]]
