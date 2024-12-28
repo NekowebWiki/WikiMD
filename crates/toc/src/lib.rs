@@ -86,6 +86,9 @@ impl CoreRule for TableOfContentsDetect {
         }
 
         let mut disorganized_headings: Vec<Heading> = Vec::new();
+        let mut index = 0;
+        let mut head_count = 0;
+        let mut first_heading: Option<u16> = None;
         root.walk_mut(|node, _| {
             fn get_level(node: &Node) -> Option<u8> {
                 match node.cast::<ATXHeading>() {
@@ -99,25 +102,42 @@ impl CoreRule for TableOfContentsDetect {
                 return None
             }
 
+            index = index + 1;
+
             let level = match get_level(node) {
                 None => return (),
                 Some(l) => l
             };
 
-            let re = Regex::new(r"[^A-Za-z-]").unwrap();
-            let title = node.collect_text();
-            let despaced = title.replace(" ", "-");
-            let cowslug = re.replace_all(&despaced, "");
-            let binding = cowslug.clone().into_owned();
-            let slug = match cowslug.char_indices().nth(32usize) {
-                None => binding.as_str(),
-                Some((i, _)) => &cowslug[..i]
-            };
+            if first_heading == None {
+                first_heading = Some(index);
+            }
+            head_count = head_count + 1;
 
             let mut attrs = node.attrs.clone();
-            attrs.push(("id", slug.into()));
-            node.attrs = attrs;
+            let mut title = String::from("");
+            let slug = match attrs.as_slice() {
+                [("id", id)] => String::from(id),
+                // If another plugin sets the id, use that instead.
+                _ => {
+                    let re = Regex::new(r"[^A-Za-z-]").unwrap();
+                    title = node.collect_text();
+                    let despaced = title.replace(" ", "-");
+                    let cowslug = re.replace_all(&despaced, "");
+                    let binding = cowslug.clone().into_owned();
 
+                    let s = String::from(match cowslug.char_indices().nth(32usize) {
+                        None => binding.as_str(),
+                        Some((i, _)) => &cowslug[..i]
+                    });
+
+                    attrs.push(("id", s.clone()));
+                    node.attrs = attrs;
+
+                    s
+                }
+            };
+            
             let header_tag = Heading {
                 title: title,
                 slug: String::from(slug),
@@ -136,7 +156,14 @@ impl CoreRule for TableOfContentsDetect {
             organized_headings.push(head, heading.level);
         }
 
-        root.children.push(Node::new(organized_headings));
+        if head_count < 2 {
+            return ();
+        }
+
+        match first_heading {
+            Some(i) => root.children.insert(i.into(), Node::new(organized_headings)),
+            None => ()
+        };
     }
 }
 
