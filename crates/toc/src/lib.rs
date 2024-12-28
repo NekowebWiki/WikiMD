@@ -89,7 +89,7 @@ impl CoreRule for TableOfContentsDetect {
         let mut index = 0;
         let mut head_count = 0;
         let mut first_heading: Option<u16> = None;
-        root.walk_mut(|node, _| {
+        root.walk_post_mut(|node, _| {
             fn get_level(node: &Node) -> Option<u8> {
                 match node.cast::<ATXHeading>() {
                     Some(item) => return Some(item.level),
@@ -110,7 +110,8 @@ impl CoreRule for TableOfContentsDetect {
             };
 
             if first_heading == None {
-                first_heading = Some(index);
+                first_heading = Some((index - 1) >> 1);
+                // MD-It has been adding a skip text between each element for some reason.
             }
             head_count = head_count + 1;
 

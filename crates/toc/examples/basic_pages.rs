@@ -5,13 +5,21 @@ fn main() {
 ## See?
 Because there's not enough headings, the table of contents doesn't get added to the page.";
     let enough_headings = "This page has enough headings for the TOC to show up.
+
 ## See?
+
 Because there's enough headings, the table appears before the first heading.
+
 ## Lorem?
+
 Ipsum.
+
 ## Another heading
+
 Yeah
+
 ## Where does it show up?
+
 It shows up before the first heading.";
     let no_headings = "This is a very basic page that has 0 headings.";
     let parser = &mut markdown_it::MarkdownIt::new();
