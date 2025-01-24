@@ -57,10 +57,3 @@ impl InlineRule for LaTeXScan {
 fn add(md: &mut MarkdownIt) {
     md.inline.add_rule::<LaTeXScan>();
 }
-
-fn main() {
-    let to_render = r#"$$a = (\Sigma^{l(x)}_{j=1} c(x_j)*1.53) \text{ mod } 235; b = (\Sigma^{l(y)}_{j=1} c(y_j)*1.35) \text{ mod } 253$$"#;
-    let md = &mut markdown_it::MarkdownIt::new();
-    add(md);
-    println!("{}", md.parse(to_render).render());
-}
