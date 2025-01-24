@@ -1,11 +1,10 @@
 [package]
-name = "md_toc"
+name = "latex"
 version = "0.1.0"
 license = "BSD-3-Clause"
 edition.workspace = true
 repository.workspace = true
 
 [dependencies]
+pulldown-latex = "0.7.1"
 markdown-it.workspace = true
-regex = "1.11.1"
-unbox-box = "0.1.0"

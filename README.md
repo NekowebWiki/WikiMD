@@ -6,7 +6,7 @@ Note: none of these are available on crates.io, at least not yet. Might be at so
 ## Plugins
 
 - [x] Table of contents: available under crates/toc
-- [ ] LaTeX: See [LaTeX](#latex)
+- [x] LaTeX: See [LaTeX](#latex)
 
 #### Possibly unnecessary 
 - [ ] Footnotes: [already an implementation](https://crates.io/crates/markdown-it-footnote), but I'm not entirely a fan of the look of the footnotes section
