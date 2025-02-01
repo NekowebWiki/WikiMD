@@ -4,7 +4,8 @@ resolver = "2"
 
 [workspace.package]
 edition = "2021"
-repository = "https://github.com/nekowebwiki/markdown-plugins"
+repository = "https://github.com/NekowebWiki/WikiMD"
 
 [workspace.dependencies]
 markdown-it = "0.6.1"
+regex = "1.11.1"
