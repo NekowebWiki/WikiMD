@@ -297,14 +297,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d75a2a4b1b190afb6f5425f10f6a8f959d2ea0b9c2b1d79553551850539e4674"
 
 [[package]]
-name = "latex"
-version = "0.1.0"
-dependencies = [
- "markdown-it",
- "pulldown-latex",
-]
-
-[[package]]
 name = "libc"
 version = "0.2.169"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -346,6 +338,16 @@ dependencies = [
  "stacker",
  "syntect",
  "unicode-general-category",
+]
+
+[[package]]
+name = "md_latex"
+version = "0.1.0"
+dependencies = [
+ "markdown-it",
+ "pulldown-latex",
+ "rstest",
+ "testing",
 ]
 
 [[package]]

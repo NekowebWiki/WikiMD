@@ -54,6 +54,6 @@ impl InlineRule for LaTeXScan {
     }
 }
 
-fn add(md: &mut MarkdownIt) {
+pub fn add(md: &mut MarkdownIt) {
     md.inline.add_rule::<LaTeXScan>();
 }

@@ -1,5 +1,5 @@
 [package]
-name = "latex"
+name = "md_latex"
 version = "0.1.0"
 license = "BSD-3-Clause"
 edition.workspace = true
@@ -8,3 +8,7 @@ repository.workspace = true
 [dependencies]
 pulldown-latex = "0.7.1"
 markdown-it.workspace = true
+
+[dev-dependencies]
+testing.workspace = true
+rstest.workspace = true
