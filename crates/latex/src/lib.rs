@@ -47,7 +47,7 @@ impl InlineRule for LaTeXScan {
         Some((
             Node::new(LaTeXNode {
                 latex: latex_text.to_string(),
-                inline: latex_enter_count == 2
+                inline: latex_enter_count = 1
             }),
             last_posi + latex_enter_count - (state.pos)
         ))
