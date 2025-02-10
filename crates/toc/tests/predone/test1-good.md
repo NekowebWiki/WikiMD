@@ -18,7 +18,23 @@ Yeah
 It shows up before the first heading.
 ...
 <p>This page has enough headings for the TOC to show up.</p>
-<ol><li><a href="#see">See?</a><ol><li><a href="#lorem">Lorem?</a><ol><li><a href="#another-heading">Another heading</a></li><li><a href="#where-does-it-show-up">Where does it show up?</a></li></ol></li></ol></li></ol>
+<nav class="table_of_contents">
+<h2>Contents</h2>
+<ol>
+<li>
+<a href="#see">See?</a>
+</li>
+<li>
+<a href="#lorem">Lorem?</a>
+</li>
+<li>
+<a href="#another-heading">Another heading</a>
+</li>
+<li>
+<a href="#where-does-it-show-up">Where does it show up?</a>
+</li>
+</ol>
+</nav>
 <h2 id="see">See?</h2>
 <p>Because there's enough headings, the table appears before the first heading.</p>
 <h2 id="lorem">Lorem?</h2>
