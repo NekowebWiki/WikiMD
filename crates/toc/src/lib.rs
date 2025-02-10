@@ -75,7 +75,7 @@ impl TOC {
 
 
 fn sluggify(name: &str) -> String {
-    name.to_string().replace(" ", "-").replace(|c| !char::is_alphanumeric(c), "").to_lowercase()
+    name.to_string().replace(|c| !char::is_alphanumeric(c) && c != ' ', "").replace(" ", "-").to_lowercase()
 }
 
 struct TableOfContentsDetect;
@@ -118,12 +118,12 @@ impl CoreRule for TableOfContentsDetect {
             }
             head_count = head_count + 1;
 
-            let title = String::from("");
+            let title = node.collect_text();
             let slug = match node.attrs.as_slice() {
                 [("id", id)] => String::from(id),
                 // If another plugin sets the id, use that instead.
                 _ => {
-                    let slug = sluggify(&node.collect_text());
+                    let slug = sluggify(&title);
                     node.attrs.push(("id", slug.clone()));
                     slug
                 }

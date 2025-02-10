@@ -203,7 +203,8 @@ name = "footnote"
 version = "0.1.0"
 dependencies = [
  "markdown-it",
- "regex",
+ "rstest",
+ "testing",
 ]
 
 [[package]]
@@ -355,7 +356,6 @@ name = "md_toc"
 version = "0.1.0"
 dependencies = [
  "markdown-it",
- "regex",
  "rstest",
  "testing",
  "unbox-box",

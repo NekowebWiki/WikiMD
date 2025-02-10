@@ -72,7 +72,7 @@ struct FootnoteList {
 }
 
 fn sluggify(name: &str) -> String {
-    name.to_string().replace(" ", "-").replace(|c| !char::is_alphanumeric(c), "").to_lowercase()
+    name.to_string().replace(|c| !char::is_alphanumeric(c) && c != ' ', "").replace(" ", "-").to_lowercase()
 }
 
 impl NodeValue for FootnoteReference {
