@@ -6,4 +6,7 @@ repository.workspace = true
 
 [dependencies]
 markdown-it.workspace = true
-regex.workspace = true
+
+[dev-dependencies]
+testing.workspace = true
+rstest.workspace = true

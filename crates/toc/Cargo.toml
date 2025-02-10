@@ -7,7 +7,6 @@ repository.workspace = true
 
 [dependencies]
 markdown-it.workspace = true
-regex.workspace = true
 unbox-box = "0.1.0"
 
 [dev-dependencies]

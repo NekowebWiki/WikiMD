@@ -6,7 +6,6 @@ use markdown_it::{
     },
     parser::core::CoreRule
 };
-use regex::Regex;
 use std::vec::Vec;
 use unbox_box::BoxExt;
 
@@ -75,6 +74,10 @@ impl TOC {
 }
 
 
+fn sluggify(name: &str) -> String {
+    name.to_string().replace(" ", "-").replace(|c| !char::is_alphanumeric(c), "").to_lowercase()
+}
+
 struct TableOfContentsDetect;
 
 impl CoreRule for TableOfContentsDetect {
@@ -115,27 +118,14 @@ impl CoreRule for TableOfContentsDetect {
             }
             head_count = head_count + 1;
 
-            let mut attrs = node.attrs.clone();
-            let mut title = String::from("");
-            let slug = match attrs.as_slice() {
+            let title = String::from("");
+            let slug = match node.attrs.as_slice() {
                 [("id", id)] => String::from(id),
                 // If another plugin sets the id, use that instead.
                 _ => {
-                    let re = Regex::new(r"[^A-Za-z-]").unwrap();
-                    title = node.collect_text();
-                    let despaced = title.replace(" ", "-");
-                    let cowslug = re.replace_all(&despaced, "");
-                    let binding = cowslug.clone().into_owned();
-
-                    let s = String::from(match cowslug.char_indices().nth(32usize) {
-                        None => binding.as_str(),
-                        Some((i, _)) => &cowslug[..i]
-                    });
-
-                    attrs.push(("id", s.clone()));
-                    node.attrs = attrs;
-
-                    s
+                    let slug = sluggify(&node.collect_text());
+                    node.attrs.push(("id", slug.clone()));
+                    slug
                 }
             };
             

@@ -1,4 +1,3 @@
-use regex::Regex;
 use markdown_it::{
     MarkdownIt, Node, NodeValue, Renderer,
     parser::{
@@ -73,19 +72,7 @@ struct FootnoteList {
 }
 
 fn sluggify(name: &str) -> String {
-    let re = Regex::new(r"[^A-Za-z-]").unwrap();
-    let title = name;
-    let despaced = title.replace(" ", "-");
-    let cowslug = re.replace_all(&despaced, "");
-    let binding = cowslug.clone().into_owned();
-
-    let s = String::from(match cowslug.char_indices().nth(32usize) {
-        None => binding.as_str(),
-        Some((i, _)) => &cowslug[..i]
-    });
-
-    let lowercase_slug = s.to_lowercase();
-    lowercase_slug
+    name.to_string().replace(" ", "-").replace(|c| !char::is_alphanumeric(c), "").to_lowercase()
 }
 
 impl NodeValue for FootnoteReference {
