@@ -9,7 +9,7 @@ Note: none of these are available on crates.io, at least not yet. Might be at so
 - [x] LaTeX: Available under crates/latex; See [LaTeX](#latex)
 
 #### Possibly unnecessary 
-- [ ] Footnotes: [already an implementation](https://crates.io/crates/markdown-it-footnote), but I'm not entirely a fan of the look of the footnotes section
+- [x] Footnotes: [already an implementation](https://crates.io/crates/markdown-it-footnote), but I'm not entirely a fan of the look of the footnotes section
 
 ### Unnecessary
 - Cuddled lists: this was fixing a limitation of the Markdown2 parser.
