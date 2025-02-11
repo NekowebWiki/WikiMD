@@ -306,15 +306,3 @@ fn add_with_options(md: &mut MarkdownIt, options: FootnoteOptions) {
     md.add_rule::<FootnoteGroupCoreRule>().after::<FootnoteCountCoreRule>();
 }
 
-fn main() {
-    let markdown = r#"Hello![^foo]
-
-[^foo]: bar!
-    Newline or *something*
-"#;
-    let parser = &mut MarkdownIt::new();
-    markdown_it::plugins::cmark::add(parser);
-    add(parser);
-    let testing = parser.parse(markdown).render();
-    println!("{}", testing);
-}
