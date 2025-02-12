@@ -12,31 +12,31 @@ use std::collections::HashMap;
 
 #[derive(Debug)]
 pub struct FootnoteOptions {
-    FootnoteDefIdPrefix: String,
-    FootnoteRefIdPrefix: String,
+    fn_def_id_pref: String,
+    fn_ref_id_pref: String,
     
-    FootnoteBackRefTxt: String,
-    FootnoteBackRefCls: String,
+    fn_br_text: String,
+    fn_br_class: String,
 
-    FootnoteDefClassName: String,
-    FootnoteRefClassName: String,
+    fn_def_class: String,
+    fn_ref_class: String,
 
-    FootnoteDefListClassName: String,
+    fn_list_class: String,
 }
 
 impl Default for FootnoteOptions {
     fn default() -> Self {
         Self {
-            FootnoteDefClassName: "footnotes-def".to_string(),
-            FootnoteDefIdPrefix: "fnd".to_string(),
+            fn_def_class: "footnotes-def".to_string(),
+            fn_def_id_pref: "fnd".to_string(),
 
-            FootnoteBackRefTxt: "&#8593;".to_string(),
-            FootnoteBackRefCls: "footnote-back".to_string(),
+            fn_br_text: "&#8593;".to_string(),
+            fn_br_class: "footnote-back".to_string(),
     
-            FootnoteRefIdPrefix: "fnr".to_string(),
-            FootnoteRefClassName: "footnotes-ref".to_string(),
+            fn_ref_id_pref: "fnr".to_string(),
+            fn_ref_class: "footnotes-ref".to_string(),
 
-            FootnoteDefListClassName: "footnotes-list".to_string(),
+            fn_list_class: "footnotes-list".to_string(),
         }
     }
 }
@@ -44,18 +44,18 @@ impl MarkdownItExt for FootnoteOptions {}
 
 #[derive(Debug)]
 struct FootnoteReference {
-    pub Ref: String,
-    pub Count: usize,
+    pub r#ref: String,
+    pub count: usize,
 }
 #[derive(Debug)]
 struct FootnoteDefinition {
-    pub Id: String,
-    pub Count: usize, // The amount of references to the definition
+    pub id: String,
+    pub count: usize, // The amount of references to the definition
 
-    pub BRText: String,
-    pub BRClass: String,
+    pub br_text: String,
+    pub br_class: String,
 
-    pub RefIdPref: String,
+    pub ref_id_prefix: String,
 }
 #[derive(Debug)]
 struct FootnoteList(usize);
@@ -67,7 +67,7 @@ fn sluggify(name: &str) -> String {
 impl NodeValue for FootnoteReference {
     fn render(&self, node: &Node, fmt: &mut dyn Renderer) {
         fmt.open("a", &node.attrs);
-        fmt.text(&self.Ref);
+        fmt.text(&self.r#ref);
         fmt.close("a");
     }
 }
@@ -77,14 +77,14 @@ impl NodeValue for FootnoteDefinition {
     fn render(&self, node: &Node, fmt: &mut dyn Renderer) {
         fmt.open("li", &node.attrs);
         fmt.cr();
-        for i in 0..self.Count {
-            let fn_ref = self.RefIdPref.clone() + &i.to_string();
-            fmt.open("a", &[("href", fn_ref), ("class", self.BRClass.clone())]);
-            fmt.text_raw(&self.BRText);
+        for i in 0..self.count {
+            let fn_ref = self.ref_id_prefix.clone() + &i.to_string();
+            fmt.open("a", &[("href", fn_ref), ("class", self.br_class.clone())]);
+            fmt.text_raw(&self.br_text);
             fmt.close("a");
         }
         fmt.open("strong", &[]);
-        fmt.text(&self.Id);
+        fmt.text(&self.id);
         fmt.close("strong");
         fmt.text(": ");
         fmt.cr();
@@ -129,12 +129,12 @@ impl InlineRule for FootnoteRefsInlinRule {
 
         let options = state.md.ext.get::<FootnoteOptions>().unwrap();
 
-        let ref_class = options.FootnoteRefClassName.clone();
+        let ref_class = options.fn_ref_class.clone();
 
-        let def_id_pref = options.FootnoteDefIdPrefix.clone();
+        let def_id_pref = options.fn_def_id_pref.clone();
         let mut node = Node::new(FootnoteReference {
-            Ref: label.clone(),
-            Count: 0,
+            r#ref: label.clone(),
+            count: 0,
         });
 
         node.attrs.push(("class", ref_class));
@@ -145,8 +145,6 @@ impl InlineRule for FootnoteRefsInlinRule {
         ))
     }
 }
-
-const DEF_CONTINUE_INDENT: i32 = 4;
 
 impl FootnoteDefsBlockRule {
     fn get_label(state: &mut BlockState) -> Option<String> {
@@ -169,22 +167,22 @@ impl BlockRule for FootnoteDefsBlockRule {
 
         let options = state.md.ext.get::<FootnoteOptions>().unwrap();
 
-        let def_id_pref = options.FootnoteDefIdPrefix.clone();
-        let def_class   = options.FootnoteDefClassName.clone();
+        let def_id_pref = options.fn_def_id_pref.clone();
+        let def_class   = options.fn_def_class.clone();
 
-        let br_text     = options.FootnoteBackRefTxt.clone();
-        let br_class    = options.FootnoteBackRefCls.clone();
+        let br_text     = options.fn_br_text.clone();
+        let br_class    = options.fn_br_class.clone();
 
-        let ref_id_pref = options.FootnoteRefIdPrefix.clone();
+        let ref_id_pref = options.fn_ref_id_pref.clone();
         
         let mut node = Node::new(FootnoteDefinition {
-            Id: label.clone(),
-            Count: 0,
+            id: label.clone(),
+            count: 0,
 
-            BRText: br_text,
-            BRClass: br_class,
+            br_text: br_text,
+            br_class: br_class,
 
-            RefIdPref: ref_id_pref + "-" + &sluggify(&label) + "-"
+            ref_id_prefix: ref_id_pref + "-" + &sluggify(&label) + "-"
         }); 
 
         node.attrs.push(("id", def_id_pref + "-" + &sluggify(&label)));
@@ -219,16 +217,16 @@ impl CoreRule for FootnoteCountCoreRule {
         let mut counts: HashMap<String, usize> = HashMap::new();
 
         let options = md.ext.get::<FootnoteOptions>().unwrap();
-        let footnote_reference  = |id: &str, count: usize| options.FootnoteRefIdPrefix.clone() + "-" + &sluggify(id) + "-" + &count.to_string();
+        let footnote_reference  = |id: &str, count: usize| options.fn_ref_id_pref.clone() + "-" + &sluggify(id) + "-" + &count.to_string();
         root.walk_mut(|node, _| {
             let reference = match node.cast_mut::<FootnoteReference>() {
                 Some(r) => r,
                 None    => return ()
             };
-            let ref_id = reference.Ref.clone();
+            let ref_id = reference.r#ref.clone();
             counts.entry(ref_id.clone()).and_modify(|c| *c += 1).or_insert(1);
             let count = counts[&ref_id];
-            reference.Count = count;
+            reference.count = count;
 
             node.attrs.push(("id", footnote_reference(&ref_id, count)));
         });
@@ -237,10 +235,10 @@ impl CoreRule for FootnoteCountCoreRule {
                 Some(r) => r,
                 None    => return ()
             };
-            let def_id = definition.Id.clone();
+            let def_id = definition.id.clone();
             counts.entry(def_id.clone()).or_insert(0);
             let count = counts[&def_id];
-            definition.Count = count;
+            definition.count = count;
 
         });
     }
@@ -255,7 +253,7 @@ impl CoreRule for FootnoteGroupCoreRule {
         let mut index = 0;
         let mut open_index = 0;
         let options = md.ext.get::<FootnoteOptions>().unwrap();
-        let class = options.FootnoteDefListClassName.clone();
+        let class = options.fn_list_class.clone();
         let mut defs: Vec<(usize, Box<Node>)> = Vec::new();
         root.walk_mut(|node, _depth| {
             if !node.is::<FootnoteDefinition>() {

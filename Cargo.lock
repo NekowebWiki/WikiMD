@@ -199,15 +199,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
-name = "footnote"
-version = "0.1.0"
-dependencies = [
- "markdown-it",
- "rstest",
- "testing",
-]
-
-[[package]]
 name = "futures-core"
 version = "0.3.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -342,7 +333,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "md_latex"
+name = "markdown-it-footnotes"
+version = "0.1.0"
+dependencies = [
+ "markdown-it",
+ "rstest",
+ "testing",
+]
+
+[[package]]
+name = "markdown-it-latex"
 version = "0.1.0"
 dependencies = [
  "markdown-it",
@@ -352,7 +352,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "md_toc"
+name = "markdown-it-table-of-contents"
 version = "0.1.0"
 dependencies = [
  "markdown-it",
@@ -696,7 +696,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
  "markdown-it",
 ]

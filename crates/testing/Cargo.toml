@@ -1,8 +1,6 @@
 [package]
 name = "testing"
-version = "0.1.0"
 edition.workspace = true
-repository.workspace = true
 
 [dependencies]
 markdown-it.workspace = true

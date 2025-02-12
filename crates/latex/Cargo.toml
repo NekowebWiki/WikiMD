@@ -1,12 +1,15 @@
 [package]
-name = "md_latex"
+name = "markdown-it-latex"
 version = "0.1.0"
 license = "BSD-3-Clause"
+description = "Allows for the insertion of math in Markdown documents using LaTeX."
+readme.workspace = true
+license-file.workspace = true
 edition.workspace = true
 repository.workspace = true
 
 [dependencies]
-pulldown-latex = "0.7.1"
+pulldown-latex = ">= 0.7.1, <1.0.0"
 markdown-it.workspace = true
 
 [dev-dependencies]

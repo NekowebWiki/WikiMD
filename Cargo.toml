@@ -5,8 +5,11 @@ resolver = "2"
 [workspace.package]
 edition = "2021"
 repository = "https://github.com/NekowebWiki/WikiMD"
+homepage = "https://github.com/NekowebWiki/WikiMD"
+license-file = "LICENSE"
+readme = "README.md"
 
 [workspace.dependencies]
-markdown-it = "0.6.1"
 testing = { path="crates/testing" }
+markdown-it = "0.6.1"
 rstest = "0.24.0"

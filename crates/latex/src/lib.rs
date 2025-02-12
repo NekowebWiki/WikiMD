@@ -13,7 +13,7 @@ pub struct LaTeXNode {
 }
 
 impl NodeValue for LaTeXNode {
-    fn render(&self, node: &Node, fmt: &mut dyn Renderer) {
+    fn render(&self, _node: &Node, fmt: &mut dyn Renderer) {
         let mathml = latex_render_mathml(&self.latex, self.inline);
         fmt.text_raw(&mathml);
     }
