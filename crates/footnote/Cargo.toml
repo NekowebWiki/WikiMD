@@ -3,8 +3,7 @@ name = "markdown-it-footnotes"
 version = "0.1.0"
 license = "BSD-3-Clause"
 description = "Creates footnotes and lists of footnotes in Markdown documents."
-license-file.workspace = true
-readme.workspace = true
+readme = "README.md"
 edition.workspace = true
 repository.workspace = true
 

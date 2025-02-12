@@ -6,8 +6,6 @@ resolver = "2"
 edition = "2021"
 repository = "https://github.com/NekowebWiki/WikiMD"
 homepage = "https://github.com/NekowebWiki/WikiMD"
-license-file = "LICENSE"
-readme = "README.md"
 
 [workspace.dependencies]
 testing = { path="crates/testing" }

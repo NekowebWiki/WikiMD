@@ -3,10 +3,10 @@ name = "markdown-it-table-of-contents"
 version = "0.1.0"
 license = "BSD-3-Clause"
 description = "Creates a table of contents in Markdown documents."
+readme = "README.md"
 
 edition.workspace = true
 repository.workspace = true
-license-file.workspace = true
 homepage.workspace = true
 
 [dependencies]

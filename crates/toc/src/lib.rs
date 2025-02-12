@@ -46,13 +46,11 @@ impl Default for TOCOptions {
 
 impl TableOfContentsItem {
     fn push(&mut self, item: TableOfContentsItem, depth_limit: u8) {
-        println!("{}", depth_limit);
         let child_count = self.children.unbox_ref().len();
         if depth_limit > self.level+1 && child_count != 0 {
             self.children.unbox_mut()[child_count - 1].push(item, depth_limit-1);
             return;
         }
-        println!("---");
         self.children.unbox_mut().push(item);
     }
 }

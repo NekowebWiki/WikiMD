@@ -3,8 +3,7 @@ name = "markdown-it-latex"
 version = "0.1.0"
 license = "BSD-3-Clause"
 description = "Allows for the insertion of math in Markdown documents using LaTeX."
-readme.workspace = true
-license-file.workspace = true
+readme = "README.md"
 edition.workspace = true
 repository.workspace = true
 
