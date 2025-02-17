@@ -78,15 +78,17 @@ impl NodeValue for FootnoteDefinition {
         fmt.open("li", &node.attrs);
         fmt.cr();
         for i in 0..self.count {
-            let fn_ref = self.ref_id_prefix.clone() + &i.to_string();
+            let fn_i = (i+1).to_string();
+            let fn_ref = self.ref_id_prefix.clone() + &fn_i;
             fmt.open("a", &[("href", fn_ref), ("class", self.br_class.clone())]);
             fmt.text_raw(&self.br_text);
             fmt.close("a");
+            fmt.cr();
         }
         fmt.open("strong", &[]);
         fmt.text(&self.id);
         fmt.close("strong");
-        fmt.text(": ");
+        fmt.text(":");
         fmt.cr();
         fmt.contents(&node.children);
         fmt.cr();
@@ -97,10 +99,12 @@ impl NodeValue for FootnoteDefinition {
 
 impl NodeValue for FootnoteList {
     fn render(&self, node: &Node, fmt: &mut dyn Renderer) {
+        fmt.cr();
         fmt.open("ul", &node.attrs);
         fmt.cr();
         fmt.contents(&node.children);
         fmt.close("ul");
+        fmt.cr();
     }
 }
 
@@ -236,7 +240,7 @@ impl CoreRule for FootnoteCountCoreRule {
                 None    => return ()
             };
             let def_id = definition.id.clone();
-            counts.entry(def_id.clone()).or_insert(0);
+            counts.entry(def_id.clone()).or_insert(1);
             let count = counts[&def_id];
             definition.count = count;
 
@@ -288,7 +292,7 @@ impl CoreRule for FootnoteGroupCoreRule {
     }
 }
 
-fn add(md: &mut MarkdownIt) {
+pub fn add(md: &mut MarkdownIt) {
     md.ext.get_or_insert_default::<FootnoteOptions>();
     md.inline.add_rule::<FootnoteRefsInlinRule>();
     md.block.add_rule::<FootnoteDefsBlockRule>().before::<ReferenceScanner>();
@@ -296,7 +300,7 @@ fn add(md: &mut MarkdownIt) {
     md.add_rule::<FootnoteGroupCoreRule>().after::<FootnoteCountCoreRule>();
 }
 
-fn add_with_options(md: &mut MarkdownIt, options: FootnoteOptions) {
+pub fn add_with_options(md: &mut MarkdownIt, options: FootnoteOptions) {
     md.ext.insert(options);
     md.inline.add_rule::<FootnoteRefsInlinRule>();
     md.block.add_rule::<FootnoteDefsBlockRule>().before::<ReferenceScanner>();

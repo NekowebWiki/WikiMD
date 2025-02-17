@@ -9,23 +9,6 @@ pub struct Test {
 }
 
 impl Test {
-    pub fn output_matches(&self, md: &MarkdownIt) -> bool {
-        md.parse(&self.input).render() == self.expected
-    }
-    pub fn default_parser() -> MarkdownIt {
-        let mut parser = MarkdownIt::new();
-        markdown_it::plugins::cmark::add(&mut parser);
-        parser
-    }
-    pub fn log(&self) {
-        println!("{} {} {}", self.input, self.split, self.expected);
-    }
-    pub fn output_matches_log(&self, md: &MarkdownIt) -> bool {
-        let actual_output = md.parse(&self.input).render();
-        let matches = actual_output == self.expected;
-        println!("EXPECTED\n---\n{}\n---\nACTUAL\n{}\n---\nMATCHES? {}", self.expected, actual_output, matches);
-        matches
-    }
     pub fn from(predone: &str) -> Self {
         let mut lines = predone.lines();
         let splitting = lines.next().unwrap();
@@ -54,6 +37,36 @@ impl Test {
     pub fn from_file<P: AsRef<Path>>(path: P) -> std::io::Result<Self> {
         let contents = std::fs::read_to_string(path);
         Ok(Test::from(&contents?))
+    }
+
+    pub fn default_parser() -> MarkdownIt {
+        let mut parser = MarkdownIt::new();
+        markdown_it::plugins::cmark::add(&mut parser);
+        parser
+    }
+
+    pub fn output_matches(&self, md: &MarkdownIt) -> bool {
+        md.parse(&self.input).render() == self.expected
+    }
+    pub fn output_matches_log(&self, md: &MarkdownIt) -> bool {
+        let actual_output = md.parse(&self.input).render();
+        let matches = actual_output == self.expected;
+        println!("EXPECTED\n---\n{}\n---\nACTUAL\n---\n{}\n---\nMATCHES? {}", self.expected, actual_output, matches);
+        matches
+    }
+
+    pub fn output(&self, md: &MarkdownIt) -> (String, String) {
+        (md.parse(&self.input).render(), self.expected.clone())
+    }
+    pub fn output_log(&self, md: &MarkdownIt) -> (String, String) {
+        let actual_output = md.parse(&self.input).render();
+        let matches = self.expected == actual_output;
+        println!("EXPECTED\n---\n{}\n---\nACTUAL\n---\n{}\n---\nMATCHES? {}", self.expected, actual_output, matches);
+        (actual_output, self.expected.clone())
+    }
+
+    pub fn log(&self) {
+        println!("{} {} {}", self.input, self.split, self.expected);
     }
 }
 
